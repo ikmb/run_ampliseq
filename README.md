@@ -86,8 +86,8 @@ For 18S rRNA analysis with single-end reads:
 ```
 
 **Note:** For 18S analysis:
-- **Single-end mode**: Uses `ampliseq_custom_18s.config` (with `tryRC=TRUE` for proper taxonomic assignment)
-- **Paired-end mode** (default): Uses `ampliseq_custom_18s_no_tryRC.config` (without `tryRC=TRUE`)
+- **Paired-end mode**: Uses `ampliseq_custom_18s.config` (with `tryRC=TRUE` for proper taxonomic assignment)
+- **Single-end mode** (default): Uses `ampliseq_custom_18s_no_tryRC.config` (without `tryRC=TRUE`)
 
 ### Resume after failure
 

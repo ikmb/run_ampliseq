@@ -148,13 +148,13 @@ elif [[ "$PRIMER_PROFILE" == "18s" ]]; then
     CMD+=(
       --single_end 
       --trunclenf 250
-      -c /work_ikmb/sukmb662/test_16s/ampliseq_custom_18s.config
+      -c /work_ikmb/sukmb662/test_16s/ampliseq_custom_18s_no_tryRC.config
     )
   else
     CMD+=(
       --trunclenf 250 
       --trunclenr 210
-      -c /work_ikmb/sukmb662/test_16s/ampliseq_custom_18s_no_tryRC.config
+      -c /work_ikmb/sukmb662/test_16s/ampliseq_custom_18s.config
     )
   fi
 else
