@@ -21,12 +21,14 @@ Required arguments:
 Optional arguments:
   --primers v3v4|v1v2|its2|archaea|18s                           Primer profile (default: v3v4)
   --db silva|gtdb|pr2|greengenes2|rdp|unite-fungi=10.0           Taxonomy database to use (default: rdp)
+  --single_end                                                   Process only forward reads (18S only)
   --multiple_sequencing_runs                                     Enables handling of multiple sequencing runs
   -resume                                                        Resume a previously failed/interrupted run
   -h, --help                                                     Show this help message and exit
 
 Example:
   ./run_ampliseq.sh --input samplesheet.tsv --outdir results --primers its2 --db unite --multiple_sequencing_runs -resume
+  ./run_ampliseq.sh --input samplesheet.tsv --outdir results --primers 18s --db pr2 --single_end
 EOF
 }
 
@@ -35,6 +37,7 @@ EOF
 # ---------------------
 DB="rdp"
 PRIMER_PROFILE="v3v4"
+SINGLE_END=false
 NEXTFLOW_ARGS=()
 
 # ---------------------
@@ -46,6 +49,7 @@ while [[ $# -gt 0 ]]; do
     --outdir) OUTPUT_DIR="$2"; shift 2 ;;
     --db) DB="$2"; shift 2 ;;
     --primers) PRIMER_PROFILE="$2"; shift 2 ;;
+    --single_end) SINGLE_END=true; shift ;;
     -resume|--multiple_sequencing_runs) NEXTFLOW_ARGS+=("$1"); shift ;;
     -h|--help) show_help; exit 0 ;;
     *) echo "Unknown argument: $1"; show_help; exit 1 ;;
@@ -123,16 +127,36 @@ elif [[ "$PRIMER_PROFILE" == "v1v2" ]]; then
   CMD+=(
     --skip_cutadapt
   )
+elif [[ "$PRIMER_PROFILE" == "v3v4" ]]; then
+  CMD+=(
+    --trunclenf 260
+    --trunclenr 200
+    --max_ee 2
+    --FW_primer "$FW_PRIMER"
+    --RV_primer "$RV_PRIMER"
+  )
 elif [[ "$PRIMER_PROFILE" == "18s" ]]; then
   CMD+=(
     --skip_cutadapt
     --dada_assign_taxlevels Domain,Supergroup,Division,Subdivision,Class,Order,Family,Genus,Species
-    --trunclenf 250
-    --trunclenr 210
     --max_ee 2
     --skip_dada_addspecies
-    -c /work_ikmb/ikmb_repository/shared/microbiome/RUN_AMPLISEQ/ampliseq_custom_18s.config
   )
+  
+  # Adjust truncation and config based on single-end vs paired-end
+  if [[ "$SINGLE_END" == true ]]; then
+    CMD+=(
+      --single_end 
+      --trunclenf 250
+      -c /work_ikmb/sukmb662/test_16s/ampliseq_custom_18s.config
+    )
+  else
+    CMD+=(
+      --trunclenf 250 
+      --trunclenr 210
+      -c /work_ikmb/sukmb662/test_16s/ampliseq_custom_18s_no_tryRC.config
+    )
+  fi
 else
   CMD+=(
     --FW_primer "$FW_PRIMER"

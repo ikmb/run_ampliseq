@@ -40,11 +40,27 @@ We recommend running the pipeline inside a tmux session to avoid job interruptio
 ```bash
 tmux new-session
 
+# Example 1: ITS2 fungi (paired-end)
 /work_ikmb/ikmb_repository/shared/microbiome/RUN_AMPLISEQ/run_ampliseq.sh \
   --input samplesheet.tsv \
   --outdir results \
   --primers its2 \
   --db unite
+
+# Example 2: 18S eukaryotes (paired-end)
+/work_ikmb/ikmb_repository/shared/microbiome/RUN_AMPLISEQ/run_ampliseq.sh \
+  --input samplesheet.tsv \
+  --outdir results \
+  --primers 18s \
+  --db pr2
+
+# Example 3: 18S eukaryotes (single-end, forward only)
+/work_ikmb/ikmb_repository/shared/microbiome/RUN_AMPLISEQ/run_ampliseq.sh \
+  --input samplesheet.tsv \
+  --outdir results \
+  --primers 18s \
+  --db pr2 \
+  --single_end
 ```
 
 ###  4. Post-process Output (optional)
@@ -56,6 +72,22 @@ cd /work_ikmb/sukmb276/Microbiome/clean_data_from_dada2/Runs_v.1.10_Fungi/XXMont
 ```
 
 ## Other Use Cases
+
+### Single-end mode (forward reads only)
+
+For 18S rRNA analysis with single-end reads:
+```bash
+/work_ikmb/ikmb_repository/shared/microbiome/RUN_AMPLISEQ/run_ampliseq.sh \
+  --input samplesheet.tsv \
+  --outdir results \
+  --primers 18s \
+  --db pr2 \
+  --single_end
+```
+
+**Note:** For 18S analysis:
+- **Single-end mode**: Uses `ampliseq_custom_18s.config` (with `tryRC=TRUE` for proper taxonomic assignment)
+- **Paired-end mode** (default): Uses `ampliseq_custom_18s_no_tryRC.config` (without `tryRC=TRUE`)
 
 ### Resume after failure
 
