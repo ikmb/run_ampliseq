@@ -31,7 +31,7 @@ nextflow run nf-core/ampliseq \
   --trunclenr 200 \
   --max_ee 2 \
   --ignore_empty_input_files \
-  --db gtdb \
+  --dada_ref_taxonomy gtdb \
   --min_samples 2 \
   --min_frequency 10 \
   --skip_diversity_indices \
