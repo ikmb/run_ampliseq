@@ -1,0 +1,31 @@
+# nf-core/ampliseq parameters
+# GMbC 18S eukaryotic analysis with PR2 taxonomy
+
+# Input/Output
+input: "samplesheet.tsv"
+outdir: "results_filtered_18s"
+metadata: "metadata.tsv"
+
+# Primers (18S region for eukaryotes)
+FW_primer: "TTAAARVGYTCGTAGTYG"
+RV_primer: "CCGTCAATTHCTTYAART"
+
+# DADA2 quality filtering
+trunclenf: 250
+trunclenr: 210
+max_ee: 2
+ignore_failed_filtering: true
+ignore_empty_input_files: true
+skip_cutadapt: true
+
+# Taxonomy assignment (eukaryotic)
+dada_ref_taxonomy: "pr2"
+dada_assign_taxlevels: "Domain,Supergroup,Division,Subdivision,Class,Order,Family,Genus,Species"
+skip_dada_addspecies: true
+
+# Filtering thresholds
+min_samples: 2
+min_frequency: 10
+
+# Analysis options
+skip_diversity_indices: true

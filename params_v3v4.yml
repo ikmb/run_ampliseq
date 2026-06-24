@@ -1,0 +1,29 @@
+# nf-core/ampliseq parameters
+# GMbC V3-V4 16S bacterial analysis with GTDB taxonomy
+
+# Input/Output
+input: "samplesheet.tsv"
+outdir: "results_filtered"
+metadata: "metadata.tsv"
+
+# Primers (V3-V4 region for 16S)
+FW_primer: "CCTACGGGAGGCAGCAG"
+RV_primer: "GGACTACHVGGGTWTCTAAT"
+
+# DADA2 quality filtering
+trunclenf: 260
+trunclenr: 200
+max_ee: 2
+ignore_failed_filtering: true
+ignore_empty_input_files: true
+
+# Taxonomy assignment (bacterial)
+dada_ref_taxonomy: "gtdb"
+dada_assign_taxlevels: "Kingdom,Phylum,Class,Order,Family,Genus,Species"
+
+# Filtering thresholds
+min_samples: 2
+min_frequency: 10
+
+# Analysis options
+skip_diversity_indices: true
