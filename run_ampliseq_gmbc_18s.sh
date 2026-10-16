@@ -9,6 +9,7 @@
 set -euo pipefail
 
 module load gcc12-env
+module load nextflow
 module load singularity
 
 # nf-schema requires Java 17+; gcc12-env/nextflow modules pull in OpenJDK 16
