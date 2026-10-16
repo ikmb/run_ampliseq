@@ -13,7 +13,7 @@ module load nextflow
 module load singularity
 
 nextflow run nf-core/ampliseq \
-  -r 2.16.1 \
+  -r 3.0.0 \
   -profile ccga_cau \
   -c ampliseq_custom_18s.config \
   -params-file params_18s_gmbc.yml \
